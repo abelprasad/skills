@@ -17,6 +17,85 @@ Browse it: **[abelprasad.github.io/skills](https://abelprasad.github.io/skills/)
 | `plugins/` | 12 | Claude Code plugins, one per vendored skill |
 | `docs/adr/` | 6 | Architecture decisions, Nygard format |
 
+## Work laptop setup — step by step
+
+Set up the Dell work laptop in this order. Run the steps in order — each `cd ..\<tool>` moves from the previous tool's folder. Each tool has its own README in its folder with the full details; this section is the order + commands only.
+
+Prerequisites: git, and Python 3.10+ on PATH (steps 4–7 need it).
+
+### Step 1 — Clone the repo
+
+```powershell
+git clone https://github.com/abelprasad/skills
+cd skills
+```
+
+### Step 2 — Local AI
+
+```powershell
+cd tools\made\work-laptop-local-ai
+powershell -ExecutionPolicy Bypass -File .\setup-local-ai.ps1
+```
+
+The installer scans the laptop first, then lists 7 models. Pick **1 Recommended** when the menu appears. Downloads run about 14 GB, so they take a while — let it finish.
+
+### Step 3 — CodeGraph + RTK
+
+```powershell
+cd ..\codegraph-rtk-setup
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+Pick **3 Both** when the menu appears. The repo picker is optional — skip it on a work laptop (press Enter). After it finishes, **restart Claude Code** so the CodeGraph MCP server and the RTK hook take effect.
+
+### Step 4 — Note taker
+
+Open Outlook first, then:
+
+```powershell
+cd ..\note-taker
+.\run-notes.bat
+```
+
+Platform defaults to `teams` in `config.yaml`. The calendar reads Outlook live while Outlook is open and falls back to a `calendar.ics` file when it isn't. Whisper + qwen3.5:4b run locally on the laptop. If it says Ollama is not running, start Ollama (step 2 installed it) and run again.
+
+### Step 5 — QA agent
+
+Run the example first:
+
+```powershell
+cd ..\qa-agent
+.\run-qa.bat https://the-internet.herokuapp.com checklists/example-checklist.yaml
+```
+
+First run sets up its own `.venv` (takes a minute) and opens the HTML report when it finishes.
+
+### Step 6 — Standup notes
+
+```powershell
+cd ..\standup-notes
+.\standup.bat
+```
+
+Edit `config.yaml` once first (repo path, ticket format) if you haven't. For Azure DevOps items, dump them from a Claude Code session where the MCP is connected into `standup-items.json` first — see that folder's README.
+
+### Step 7 — Dependency watch
+
+Run once to check, then register the weekly run:
+
+```powershell
+cd ..\dependency-watch
+.\run-watch.bat
+```
+
+Then, as Administrator:
+
+```powershell
+.\register-watch.bat
+```
+
+That schedules it weekly, Monday 08:00. For a JS-only repo, set `pip: false` in `config.yaml` first, or the report fills up with system packages.
+
 ## Skills Abel made
 
 | Skill | One line |
