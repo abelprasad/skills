@@ -24,6 +24,10 @@ for root in ROOTS:
                 continue
             files.append(os.path.relpath(os.path.join(dirpath, name), repo).replace(os.sep, "/"))
 
+for doc in ("README.md", "INSTALL.md", "USAGE.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md"):
+    if os.path.isfile(os.path.join(repo, doc)):
+        files.append(doc)
+
 snap = {
     "generated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     "ref": "main",

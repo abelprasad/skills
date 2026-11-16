@@ -8,5 +8,6 @@
 | 0004 | [Keep tools self-contained](0004-keep-tools-self-contained.md) | Accepted | 2026-11-16 |
 | 0005 | [Plugin skills duplicate catalog copies](0005-plugin-skills-duplicate-catalog-copies.md) | Accepted | 2026-11-16 |
 | 0006 | [Static Pages explorer page](0006-static-pages-explorer.md) | Accepted | 2026-11-16 |
+| 0007 | [Explorer redesign: portfolio design, collapsed by default, relevant items only](0007-explorer-redesign.md) | Accepted | 2026-11-16 |
 
 ADRs are immutable. A changed decision gets a NEW ADR that supersedes the old one; the old one's Status becomes Superseded with a pointer to the new one.

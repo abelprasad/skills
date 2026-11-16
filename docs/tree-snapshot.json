@@ -1,7 +1,13 @@
 {
-  "generated_at": "2026-11-16T06:45:04Z",
+  "generated_at": "2026-11-16T06:56:31Z",
   "ref": "main",
   "files": [
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "INSTALL.md",
+    "README.md",
+    "SECURITY.md",
+    "USAGE.md",
     "plugins/README.md",
     "plugins/check-owned-before-recommending/.claude-plugin/plugin.json",
     "plugins/check-owned-before-recommending/README.md",

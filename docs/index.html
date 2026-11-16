@@ -4,83 +4,208 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>skills — Abel Prasad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#1e1e1e; --panel:#252526; --panel2:#2d2d30; --line:#3e3e42; --text:#cccccc; --dim:#858585; --accent:#007acc; --accent2:#4ec9b0; --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,monospace; }
+  /* Design tokens copied from abelprasad.dev (abelprasad.github.io index.html):
+     paper #fafaf7, panel #ffffff, green #16a34a, darkGreen #15803d,
+     dim #e9f2e6, ink #0f2318, muted #456b50, line #d2ded0, text #1e2b22. */
+  :root {
+    --paper:#fafaf7; --panel:#ffffff; --green:#16a34a; --darkgreen:#15803d;
+    --dim:#e9f2e6; --ink:#0f2318; --muted:#456b50; --line:#d2ded0;
+    --text:#1e2b22; --placeholder:#7d9184; --scrollbar:#b7c9b3;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 -apple-system,'Segoe UI',Helvetica,Arial,sans-serif; }
-  a { color:var(--accent2); }
-  /* VS Code window chrome */
-  .titlebar { display:flex; align-items:center; gap:10px; background:#323233; padding:8px 14px; border-bottom:1px solid var(--line); }
-  .dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
-  .dot.r { background:#ff5f57; } .dot.y { background:#febc2e; } .dot.g { background:#28c840; }
-  .titlebar .name { font-family:var(--mono); font-size:13px; color:#e0e0e0; }
-  .titlebar .spacer { flex:1; }
-  .btn { background:var(--accent); color:#fff; border:0; border-radius:4px; padding:7px 14px; font-size:13px; cursor:pointer; text-decoration:none; display:inline-block; }
-  .btn:hover { background:#0e8ad8; }
-  .btn.ghost { background:transparent; border:1px solid var(--line); color:var(--text); }
-  .wrap { max-width:1100px; margin:0 auto; padding:0 16px 40px; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; background-color:var(--paper); color:var(--text);
+    font:14px/1.6 var(--mono); overflow-x:hidden;
+    background-image:
+      linear-gradient(rgba(22,163,74,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22,163,74,0.07) 1px, transparent 1px);
+    background-size:48px 48px;
+  }
+  /* paper grain, same as the portfolio: fixed SVG noise, opacity 0.05 */
+  body::after {
+    content:''; position:fixed; inset:0; z-index:40; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  ::selection { background:var(--green); color:#fff; }
+  :focus-visible { outline:2px solid var(--darkgreen); outline-offset:3px; }
+  ::-webkit-scrollbar { width:8px; height:8px; }
+  ::-webkit-scrollbar-track { background:var(--paper); }
+  ::-webkit-scrollbar-thumb { background:var(--scrollbar); border-radius:0; }
+  ::-webkit-scrollbar-thumb:hover { background:var(--green); }
+  a { color:var(--darkgreen); }
+  h1, h2, h3 { color:var(--ink); font-weight:700; }
+  .blink { animation:blink 1.1s step-end infinite; }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+  @media (prefers-reduced-motion: reduce) { .blink { animation:none !important; } }
+
+  /* Top bar — same pattern as the portfolio navbar */
+  .topbar {
+    position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:12px;
+    flex-wrap:wrap; padding:14px 20px;
+    background:rgba(250,250,247,0.85); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .prompt { font-size:13px; white-space:nowrap; }
+  .prompt .who { color:var(--darkgreen); }
+  .prompt .mut { color:var(--muted); }
+  .prompt .cur { color:var(--green); }
+  .topbar .spacer { flex:1; }
+  .status { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); white-space:nowrap; }
+  .status .dot { width:8px; height:8px; border-radius:50%; background:var(--green); display:inline-block; }
+  .btn {
+    background:var(--darkgreen); color:#fff; border:0; padding:10px 18px;
+    font:700 13px/1 var(--mono); letter-spacing:0.1em; cursor:pointer;
+    text-decoration:none; display:inline-block; text-align:center;
+  }
+  .btn:hover { background:#166534; color:#fff; }
+  .btn.ghost { background:transparent; border:1px solid rgba(22,163,74,0.4); color:var(--darkgreen); }
+  .btn.ghost:hover { border-color:var(--green); color:var(--darkgreen); }
+  .btn.sm { padding:6px 10px; font-size:12px; }
+
+  .wrap { max-width:1100px; margin:0 auto; padding:0 20px 48px; position:relative; z-index:1; }
+
+  /* Section headers — portfolio SectionHeader pattern, headings at 700 not 800 */
+  .sechead { margin:48px 0 24px; }
+  .sechead .cmdline { font-size:13px; margin:0 0 16px; }
+  .sechead .cmdline .br { color:#6b7280; }
+  .sechead .cmdline .who { color:var(--darkgreen); }
+  .sechead .cmdline .mut { color:var(--muted); }
+  .sechead .cmdline .cmd { color:var(--ink); }
+  .sechead h1 { font-size:32px; margin:0 0 12px; letter-spacing:-0.02em; }
+  .sechead h2 { font-size:28px; margin:0 0 12px; letter-spacing:-0.02em; }
+  .sechead p { color:var(--muted); margin:0; max-width:640px; }
+  .sechead .rule { color:rgba(22,163,74,0.6); font-size:12px; margin:20px 0 0; white-space:nowrap; overflow:hidden; }
+
   /* Installer hero */
-  .hero { background:var(--panel); border:1px solid var(--line); border-radius:8px; margin:18px 0; padding:18px 20px; }
-  .hero h1 { margin:0 0 4px; font-size:22px; color:#fff; }
-  .hero p { margin:0 0 14px; color:var(--dim); }
-  .tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
-  .tab { background:var(--panel2); border:1px solid var(--line); color:var(--text); border-radius:4px; padding:6px 12px; font-size:13px; cursor:pointer; }
-  .tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
-  .cmdrow { display:flex; gap:8px; }
-  .cmdrow code { flex:1; background:#111; border:1px solid var(--line); border-radius:4px; padding:9px 12px; font-family:var(--mono); font-size:13px; overflow-x:auto; white-space:nowrap; }
-  /* Explorer */
-  .explorer { display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; min-height:520px; background:var(--panel); }
-  .sidebar { width:300px; min-width:300px; background:var(--panel); border-right:1px solid var(--line); display:flex; flex-direction:column; }
-  .sidebar input { margin:10px; padding:7px 10px; background:#3c3c3c; border:1px solid var(--line); border-radius:4px; color:var(--text); font-size:13px; }
-  #tree { overflow-y:auto; padding:0 6px 12px; font-family:var(--mono); font-size:13px; }
-  #tree ul { list-style:none; margin:0; padding-left:16px; }
-  #tree > ul { padding-left:4px; }
-  #tree li { line-height:1.9; white-space:nowrap; }
-  #tree .folder { cursor:pointer; color:#e0e0e0; }
-  #tree .folder::before { content:'▸ '; color:var(--dim); }
-  #tree .folder.open::before { content:'▾ '; }
-  #tree .file { cursor:pointer; color:var(--text); }
-  #tree .file:hover, #tree .folder:hover { background:var(--panel2); }
-  #tree .file.sel { background:var(--accent); color:#fff; }
+  .hero { background:var(--panel); border:1px solid var(--line); padding:24px; margin-top:8px; }
+  .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+  .tab {
+    background:transparent; border:1px solid var(--line); color:var(--text);
+    padding:8px 14px; font:500 13px/1.4 var(--mono); cursor:pointer; letter-spacing:0.02em;
+  }
+  .tab:hover { border-color:var(--green); }
+  .tab.active { background:var(--darkgreen); border-color:var(--darkgreen); color:#fff; }
+  .cmdrow { display:flex; gap:10px; flex-wrap:wrap; }
+  .cmdrow code {
+    flex:1; min-width:220px; background:var(--dim); border:1px solid var(--line);
+    padding:12px 14px; font:13px/1.5 var(--mono); color:var(--ink);
+    overflow-x:auto; white-space:nowrap;
+  }
+
+  /* Explorer window */
+  .explorer { background:var(--panel); border:1px solid var(--line); margin-top:8px; }
+  .chrome {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding:12px 16px; border-bottom:1px solid var(--line); font-size:13px;
+  }
+  .chrome .spacer { flex:1; }
+  .chrome .tool {
+    background:transparent; border:1px solid var(--line); color:var(--text);
+    padding:6px 10px; font:500 12px/1.4 var(--mono); cursor:pointer; letter-spacing:0.02em;
+  }
+  .chrome .tool:hover { border-color:var(--green); color:var(--darkgreen); }
+  .chrome .tool[aria-pressed="true"] { background:var(--dim); border-color:var(--green); color:var(--darkgreen); }
+  .exp-body { display:flex; min-height:480px; }
+  .sidebar { width:360px; min-width:360px; background:var(--paper); border-right:1px solid var(--line); display:flex; flex-direction:column; }
+  .searchbox { padding:12px 12px 4px; }
+  .searchbox input {
+    width:100%; padding:10px 12px; background:var(--panel); border:1px solid var(--line);
+    color:var(--text); font:400 13px/1.4 var(--mono);
+  }
+  .searchbox input::placeholder { color:var(--placeholder); }
+  .countline { padding:6px 14px 10px; font-size:12px; color:var(--muted); }
+  #tree { overflow-y:auto; padding:0 6px 16px; font-size:13px; flex:1; }
+  #tree ul { list-style:none; margin:0; padding-left:18px; }
+  #tree > ul { padding-left:2px; }
+  #tree li { line-height:1.5; }
   #tree .hidden { display:none; }
+  .sec-head {
+    display:flex; align-items:center; gap:8px; padding:8px 6px; cursor:pointer;
+    border-bottom:1px solid var(--line);
+  }
+  .sec-head:hover { background:var(--dim); }
+  .sec-head .twisty { color:var(--muted); font-size:12px; width:16px; text-align:center; }
+  .sec-head .sec-name { font-weight:700; color:var(--ink); }
+  .sec-head .count { margin-left:auto; font-size:12px; color:var(--muted); }
+  .item { border-bottom:1px solid var(--line); padding:10px 6px; }
+  .item-head { display:flex; align-items:center; gap:8px; }
+  .item-head .twisty { color:var(--muted); font-size:12px; width:16px; text-align:center; cursor:pointer; background:none; border:0; padding:0; font-family:var(--mono); }
+  .item-name { font-weight:700; color:var(--ink); cursor:pointer; word-break:break-word; }
+  .item-name:hover { color:var(--darkgreen); }
+  .item-actions { margin-left:auto; display:flex; gap:6px; flex-shrink:0; }
+  .item-desc { margin:6px 0 0 24px; font-size:12px; color:var(--muted); line-height:1.55; }
+  .item-files { margin:10px 0 0 24px; padding-left:0; }
+  .item-files li { padding:5px 0; border-top:1px dashed var(--line); }
+  .file-row { display:flex; align-items:center; gap:8px; }
+  .file-row .file-name { cursor:pointer; word-break:break-all; }
+  .file-row .file-name:hover { color:var(--darkgreen); }
+  .file-row .dl { margin-left:auto; flex-shrink:0; }
+  .dl { font-size:12px; color:var(--darkgreen); text-decoration:underline; text-underline-offset:2px; background:none; border:0; padding:0; font-family:var(--mono); cursor:pointer; white-space:nowrap; }
+  .dl:hover { color:var(--green); }
+  .open-link { font-size:12px; color:var(--muted); text-decoration:none; white-space:nowrap; }
+  .open-link:hover { color:var(--darkgreen); }
+  .tag { font-size:11px; color:var(--muted); border:1px solid var(--line); padding:1px 6px; white-space:nowrap; }
   .main { flex:1; min-width:0; display:flex; flex-direction:column; }
-  .crumb { display:flex; align-items:center; gap:10px; padding:10px 16px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:13px; }
+  .crumb { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:12px 16px; border-bottom:1px solid var(--line); font-size:13px; }
   .crumb .spacer { flex:1; }
-  #content { padding:16px 20px; overflow-y:auto; }
-  #content pre { background:#111; border:1px solid var(--line); border-radius:4px; padding:12px; overflow-x:auto; font-family:var(--mono); font-size:13px; }
-  #content code { font-family:var(--mono); font-size:13px; background:#111; padding:1px 4px; border-radius:3px; }
+  #content { padding:18px 20px; overflow-y:auto; }
+  #content pre { background:var(--dim); border:1px solid var(--line); padding:14px; overflow-x:auto; font-size:13px; }
+  #content code { font-size:13px; background:var(--dim); padding:1px 4px; }
   #content pre code { background:none; padding:0; }
-  #content h1, #content h2, #content h3 { color:#fff; }
   #content h1 { font-size:20px; } #content h2 { font-size:17px; } #content h3 { font-size:15px; }
-  #content table { border-collapse:collapse; margin:12px 0; }
+  #content table { border-collapse:collapse; margin:12px 0; display:block; overflow-x:auto; }
   #content th, #content td { border:1px solid var(--line); padding:6px 10px; text-align:left; }
-  .note { background:#3a2f00; border:1px solid #6b5500; color:#ffd479; border-radius:4px; padding:8px 12px; margin:0 16px; font-size:13px; }
+  .note { background:#fdf6e3; border:1px solid #e8d9a0; color:#7a5c00; padding:10px 14px; margin:0 16px; font-size:13px; }
   .note.hidden { display:none; }
-  /* Featured */
-  .featured h2 { color:#fff; margin:28px 0 4px; }
-  .featured p.sub { color:var(--dim); margin:0 0 14px; }
-  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
-  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px 16px; text-decoration:none; color:var(--text); display:block; }
-  .card:hover { border-color:var(--accent); }
-  .card b { color:#fff; font-family:var(--mono); font-size:14px; }
-  .card span { display:block; color:var(--dim); font-size:13px; margin-top:4px; }
-  .card.soon { opacity:.65; }
-  footer { color:var(--dim); font-size:13px; margin-top:28px; text-align:center; }
-  @media (max-width:760px) { .explorer { flex-direction:column; } .sidebar { width:100%; min-width:0; border-right:0; border-bottom:1px solid var(--line); } }
+
+  /* Featured cards — size to content, no equal-height stretch */
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; align-items:start; }
+  .card { background:var(--panel); border:1px solid var(--line); padding:20px; text-decoration:none; color:var(--text); display:block; transition:border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; }
+  .card:hover { border-color:rgba(22,163,74,0.6); transform:translateY(-3px); box-shadow:0 14px 30px -16px rgba(20,83,45,0.28); }
+  .card b { color:var(--ink); font-size:14px; }
+  .card span { display:block; color:var(--muted); font-size:13px; margin-top:6px; line-height:1.55; }
+  .card.soon { opacity:0.65; }
+  footer { color:var(--muted); font-size:13px; margin-top:40px; text-align:center; line-height:1.8; }
+  footer a { color:var(--darkgreen); }
+
+  @media (max-width:760px) {
+    .exp-body { flex-direction:column; }
+    .sidebar { width:100%; min-width:0; border-right:0; border-bottom:1px solid var(--line); }
+    #tree { max-height:420px; }
+    .topbar { padding:12px 14px; }
+    .topbar .btn { width:100%; }
+    .topbar .spacer { display:none; }
+    .sechead h1 { font-size:26px; }
+    .sechead h2 { font-size:23px; }
+    .hero { padding:18px; }
+    .cmdrow code { font-size:12px; }
+    .item-actions { flex-wrap:wrap; }
+  }
 </style>
 </head>
 <body>
-<div class="titlebar">
-  <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-  <span class="name">skills — abelprasad/skills</span>
+<div class="topbar">
+  <span class="prompt"><span class="who">abel@portfolio</span><span class="mut">:~$</span> <span class="cur blink">█</span> skills</span>
   <span class="spacer"></span>
-  <a class="btn" id="dl-all" href="https://codeload.github.com/abelprasad/skills/zip/refs/heads/main">Download everything (.zip)</a>
+  <span class="status"><span class="dot"></span>public</span>
+  <a class="btn sm" href="https://codeload.github.com/abelprasad/skills/zip/refs/heads/main">Download everything (.zip)</a>
 </div>
 
 <div class="wrap">
-  <div class="hero">
+  <div class="sechead">
+    <p class="cmdline"><span class="br">[</span><span class="who">01</span><span class="br">]</span> <span class="who">abel@portfolio</span><span class="br">:</span><span class="mut">~/portfolio</span><span class="br">$</span> <span class="cmd">cat workflow.log</span></p>
     <h1>Copy my workflow</h1>
     <p>Every skill, tool, and plugin I like and make — one repo, one command. The page below is the showcase; the installer is the actual copy.</p>
+    <p class="rule" aria-hidden="true">────────────────────────────────────────────────────────────────</p>
+  </div>
+
+  <div class="hero">
     <div class="tabs" id="tabs">
       <button class="tab active" data-cmd="skills">All skills</button>
       <button class="tab" data-cmd="codegraph-mac">CodeGraph + RTK (macOS / Linux)</button>
@@ -93,45 +218,124 @@
     </div>
   </div>
 
+  <div class="sechead">
+    <p class="cmdline"><span class="br">[</span><span class="who">02</span><span class="br">]</span> <span class="who">abel@portfolio</span><span class="br">:</span><span class="mut">~/portfolio</span><span class="br">$</span> <span class="cmd">cat explorer.log</span></p>
+    <h2>Browse the repo</h2>
+    <p>Skills and tools, one row each. Expand a row to see its files. Everything is collapsed to start — open only what you need.</p>
+    <p class="rule" aria-hidden="true">────────────────────────────────────────────────────────────────</p>
+  </div>
+
   <div class="explorer">
-    <div class="sidebar">
-      <input id="filter" type="text" placeholder="Filter files…" autocomplete="off">
-      <div id="tree"><p style="color:var(--dim);padding:0 10px;">Loading file tree…</p></div>
+    <div class="chrome">
+      <span class="prompt"><span class="who">abel@portfolio</span><span class="mut">:~/skills$</span> <span class="cmd">ls</span></span>
+      <span class="spacer"></span>
+      <button class="tool" id="expand-all" type="button">Expand all</button>
+      <button class="tool" id="collapse-all" type="button">Collapse all</button>
+      <button class="tool" id="toggle-all" type="button" aria-pressed="false">Show everything</button>
     </div>
-    <div class="main">
-      <div class="crumb"><span id="crumb-path">README.md</span><span class="spacer"></span><a class="btn ghost" id="dl-file" href="https://raw.githubusercontent.com/abelprasad/skills/main/README.md">Download file</a></div>
-      <p class="note hidden" id="snapshot-note"></p>
-      <div id="content"><p style="color:var(--dim);">Loading…</p></div>
+    <div class="exp-body">
+      <div class="sidebar">
+        <div class="searchbox"><input id="filter" type="text" placeholder="Search" autocomplete="off" aria-label="Search skills and tools"></div>
+        <div class="countline" id="countline">Loading file tree…</div>
+        <div id="tree"><p style="color:var(--muted);padding:0 10px;">Loading file tree…</p></div>
+      </div>
+      <div class="main">
+        <div class="crumb"><span id="crumb-path">README.md</span><span class="spacer"></span><a class="btn ghost sm" id="dl-file" href="https://raw.githubusercontent.com/abelprasad/skills/main/README.md">Download</a></div>
+        <p class="note hidden" id="snapshot-note"></p>
+        <div id="content"><p style="color:var(--muted);">Loading…</p></div>
+      </div>
     </div>
   </div>
 
-  <div class="featured">
+  <div class="sechead">
+    <p class="cmdline"><span class="br">[</span><span class="who">03</span><span class="br">]</span> <span class="who">abel@portfolio</span><span class="br">:</span><span class="mut">~/portfolio</span><span class="br">$</span> <span class="cmd">cat featured.log</span></p>
     <h2>Featured repos</h2>
-    <p class="sub">Everything above lives in this repo. These are the other flagship repos.</p>
-    <div class="cards">
-      <a class="card" href="https://github.com/abelprasad/Dogsrun"><b>dogsrun</b><span>Shelter-to-rescue platform: live shelter scraping, Next.js + Supabase.</span></a>
-      <a class="card" href="https://github.com/abelprasad/bell-broom-web"><b>bell-broom-web</b><span>Bell &amp; Broom Cleaning LLC public website.</span></a>
-      <a class="card" href="https://github.com/abelprasad/abelprasad.github.io"><b>abelprasad.github.io</b><span>Portfolio site — abelprasad.dev.</span></a>
-      <a class="card" href="https://github.com/abelprasad/sentinel-v2"><b>sentinel-v2</b><span>Sentinel v2 — security monitoring project.</span></a>
-      <div class="card soon"><b>clipsdaily</b><span>Automatic stream clip pipeline. Not pushed to GitHub yet — coming soon.</span></div>
-    </div>
+    <p>Everything above lives in this repo. These are the other flagship repos.</p>
+    <p class="rule" aria-hidden="true">────────────────────────────────────────────────────────────────</p>
+  </div>
+  <div class="cards">
+    <a class="card" href="https://github.com/abelprasad/Dogsrun"><b>dogsrun</b><span>Shelter-to-rescue platform: live shelter scraping, Next.js + Supabase.</span></a>
+    <a class="card" href="https://github.com/abelprasad/bell-broom-web"><b>bell-broom-web</b><span>Bell &amp; Broom Cleaning LLC public website.</span></a>
+    <a class="card" href="https://github.com/abelprasad/abelprasad.github.io"><b>abelprasad.github.io</b><span>Portfolio site — abelprasad.dev.</span></a>
+    <a class="card" href="https://github.com/abelprasad/sentinel-v2"><b>sentinel-v2</b><span>Sentinel v2 — security monitoring project.</span></a>
+    <div class="card soon"><b>clipsdaily</b><span>Automatic stream clip pipeline. Not pushed to GitHub yet — coming soon.</span></div>
   </div>
 
-  <footer>Built by <a href="https://www.linkedin.com/in/abel-prasad">Abel Prasad</a> — <a href="https://abelprasad.dev">abelprasad.dev</a> · <a href="https://github.com/abelprasad/skills">abelprasad/skills</a> · Tree loads live from the GitHub API; if that fails, the page falls back to a snapshot generated at build time.</footer>
+  <footer>© 2026 Abel Prasad — Built &amp; self-hosted<br><a href="https://www.linkedin.com/in/abel-prasad">LinkedIn</a> · <a href="https://abelprasad.dev">abelprasad.dev</a> · <a href="https://github.com/abelprasad/skills">abelprasad/skills</a><br>Tree loads live from the GitHub API; if that fails, the page falls back to a snapshot generated at build time.</footer>
 </div>
 
 <script>
 const OWNER = 'abelprasad', REPO = 'skills', BRANCH = 'main';
-const ROOTS = ['skills/made', 'skills/liked', 'tools/made', 'tools/liked', 'plugins'];
 const RAW = (p) => `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${p}`;
+const TREE_URL = (p) => `https://github.com/${OWNER}/${REPO}/tree/${BRANCH}/${p}`;
 const API_TREE = `https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
 const TEXT_EXTS = new Set(['md','txt','sh','ps1','py','json','yaml','yml','toml','js','mjs','ts','css','html','xml','mdx','csv','bat','example','gitignore']);
+const ROOT_DOCS = ['README.md','INSTALL.md','USAGE.md','SECURITY.md','CHANGELOG.md','CONTRIBUTING.md'];
 const COMMANDS = {
   'skills': 'git clone https://github.com/abelprasad/skills.git && bash skills/scripts/install.sh --all',
   'codegraph-mac': 'git clone https://github.com/abelprasad/skills.git && bash skills/tools/made/codegraph-rtk-setup/install.sh',
   'codegraph-win': 'git clone https://github.com/abelprasad/skills.git; Set-Location skills\\tools\\made\\codegraph-rtk-setup; .\\install.ps1',
   'localai': 'git clone https://github.com/abelprasad/skills.git; Set-Location skills\\tools\\made\\work-laptop-local-ai; .\\setup-local-ai.ps1'
 };
+// One-line descriptions, from each item's own README / SKILL.md / plugin.json.
+// Structure comes from the live tree; descriptions are an enhancement —
+// an item with no entry here still renders, just without a description.
+const DESC = {
+  'skills/made/check_owned_before_recommending': 'Check what Abel already owns before recommending a product.',
+  'skills/made/flagged_board_submit_handoff': 'Spot a flagged job board and hand off to Abel fast with a cheat sheet.',
+  'skills/made/local-ponytail': 'Laziest working solution: YAGNI, stdlib first, one line before fifty.',
+  'skills/made/qa-agent': 'Checklist QA with screenshots and a plain-English HTML report.',
+  'skills/made/repo-packaging': 'ADRs, CLI product, privacy rule, dev-copy rule, presence. Package a repo like a product.',
+  'skills/made/screenshot_guided_portal_filing': 'File in a blocking portal with screenshots instead of driving it.',
+  'skills/made/summary': '/summary: six-section handoff of everything talked and done in a session.',
+  'skills/liked/ffmpeg-skill': 'ffmpeg recipes for video and audio: cut, convert, probe, and batch.',
+  'skills/liked/i-have-adhd': 'ADHD output protocol: action first, numbered steps, no preamble.',
+  'skills/liked/local-ui-ux-pro-max': 'Design bundle: shadcn + Tailwind, brand, banners, slides.',
+  'skills/liked/motion-design': 'Motion design principles: timing, easing, choreography, Disney principles for UI.',
+  'skills/liked/unslop': 'Turns AI-looking UI into a designed interface with its own character.',
+  'tools/made/agent-worktree': 'One task, one worktree, one agent. Parallel agents never share files.',
+  'tools/made/codegraph-rtk-setup': 'Interactive setup pack for CodeGraph + RTK on Windows and macOS / Linux.',
+  'tools/made/dependency-watch': 'Once a week, check which dependencies are out of date, riskiest 3 first.',
+  'tools/made/note-taker': 'Private local AI note taker for meetings. Nothing leaves your laptop.',
+  'tools/made/qa-agent': 'QA checklist agent: Playwright, screenshots, plain-English HTML report.',
+  'tools/made/standup-notes': 'Drafts your daily standup from yesterday\u2019s git log. One command, 2 min edit.',
+  'tools/made/work-laptop-local-ai': 'Local AI setup pack for the work laptop. Everything on the laptop, nothing in the cloud.',
+  'tools/liked/CodeGraph': 'Pre-indexed code knowledge graph, auto-syncs on code changes, 100% local. Rust kernel. MIT.',
+  'tools/liked/RTK': 'CLI proxy that reduces LLM token consumption by 60-90%. Apache-2.0.',
+  'plugins/check-owned-before-recommending': 'Check what Abel already owns before recommending a product.',
+  'plugins/ffmpeg-skill': 'ffmpeg recipes for video and audio: cut, convert, probe, and batch.',
+  'plugins/flagged-board-submit-handoff': 'Spot a flagged job board and hand off to Abel fast with a cheat sheet.',
+  'plugins/i-have-adhd': 'ADHD output protocol: action first, numbered steps, no preamble.',
+  'plugins/local-ponytail': 'Laziest working solution: YAGNI, stdlib first, one line before fifty.',
+  'plugins/local-ui-ux-pro-max': 'Design bundle: shadcn + Tailwind, brand, banners, slides.',
+  'plugins/motion-design': 'Motion design principles: timing, easing, choreography, Disney principles for UI.',
+  'plugins/qa-agent': 'Checklist QA with screenshots and a plain-English HTML report.',
+  'plugins/repo-packaging': 'ADRs, CLI product, privacy rule, dev-copy rule, presence. Package a repo like a product.',
+  'plugins/screenshot-guided-portal-filing': 'File in a blocking portal with screenshots instead of driving it.',
+  'plugins/summary': '/summary: six-section handoff of everything talked and done in a session.',
+  'plugins/unslop': 'Turns AI-looking UI into a designed interface with its own character.'
+};
+// Liked skills that are link-only (not vendored): name, description, and where to get them.
+const LINK_ONLY = [
+  { name: 'video-editing', desc: 'Edit video with Claude — guide by Moisés Melo.', kind: 'url', href: 'https://blog.moisesmelo.com/video-editing-with-claude' },
+  { name: 'ai-video-prompts', desc: 'AI video prompts skill, from its source site.', kind: 'url', href: 'https://museai-eight.vercel.app/skills/ai-video-prompts' },
+  { name: 'social-media-designer', desc: 'Social media designer skill, from its source site.', kind: 'url', href: 'https://museai-eight.vercel.app/skills/social-media-designer' },
+  { name: 'claude-mem', desc: 'Persistent memory across sessions. Installs from npm (Apache-2.0).', kind: 'cmd', cmd: 'npx claude-mem install --setup defer' },
+  { name: 'security-audit', desc: 'Multi-phase security audit skill. Installs from upstream (MIT).', kind: 'cmd', cmd: 'npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global' },
+  { name: 'modern-web-guidance', desc: 'Modern web guidance: 250 features plus a legacy scan. Installs from upstream.', kind: 'cmd', cmd: 'npx modern-web-guidance@latest install' }
+];
+const LIKED_TOOLS = [
+  { name: 'CodeGraph', desc: DESC['tools/liked/CodeGraph'], url: 'https://github.com/colbymchenry/codegraph' },
+  { name: 'RTK', desc: DESC['tools/liked/RTK'], url: 'https://github.com/rtk-ai/rtk' }
+];
+const SECTIONS = [
+  { id: 'docs', label: 'docs', root: '' },
+  { id: 'skills/made', label: 'skills / made', root: 'skills/made' },
+  { id: 'skills/liked', label: 'skills / liked', root: 'skills/liked' },
+  { id: 'tools/made', label: 'tools / made', root: 'tools/made' },
+  { id: 'tools/liked', label: 'tools / liked', root: 'tools/liked' },
+  { id: 'plugins', label: 'plugins', root: 'plugins' }
+];
 
 // Installer tabs
 document.getElementById('tabs').addEventListener('click', (e) => {
@@ -147,16 +351,69 @@ document.getElementById('copy-cmd').addEventListener('click', async (e) => {
   setTimeout(() => { e.target.textContent = 'Copy'; }, 1500);
 });
 
-// File tree
-function buildTree(paths) {
+// --- Tree model -------------------------------------------------------------
+// Relevance rules: only the section folders and one row per skill/tool/plugin
+// reach the default view. Hidden everywhere: dotfiles, tree-snapshot.json,
+// scripts/ internals, docs/ internals, and deep vendor files (they only show
+// inside an expanded item row, never as top-level rows).
+function isHidden(path) {
+  if (path === 'docs/tree-snapshot.json') return true;
+  return path.split('/').some(seg => seg.startsWith('.'));
+}
+function primaryFile(files, dir) {
+  const names = files.map(f => f.split('/').pop());
+  const pick = (n) => { const i = names.indexOf(n); return i >= 0 ? files[i] : null; };
+  return pick('SKILL.md') || pick('README.md') || pick('plugin.json') || files.slice().sort()[0] || null;
+}
+function buildModel(paths) {
+  const visible = paths.filter(p => !isHidden(p));
+  const byDir = {};
+  for (const p of visible) {
+    const dir = p.includes('/') ? p.slice(0, p.lastIndexOf('/')) : '';
+    (byDir[dir] = byDir[dir] || []).push(p);
+  }
+  const sections = [];
+  // docs: the six root docs only
+  const docFiles = ROOT_DOCS.filter(d => visible.includes(d)).map(d => ({ name: d, path: d }));
+  sections.push({ id: 'docs', label: 'docs', files: docFiles, items: [] });
+  for (const sec of SECTIONS.slice(1)) {
+    const items = [];
+    const dirs = Object.keys(byDir)
+      .filter(d => d.startsWith(sec.root + '/') && !d.slice(sec.root.length + 1).includes('/'))
+      .sort();
+    for (const dir of dirs) {
+      const files = byDir[dir].slice().sort();
+      items.push({
+        name: dir.split('/').pop(), path: dir, desc: DESC[dir] || '',
+        primary: primaryFile(files, dir), files: files.map(f => ({ name: f.slice(dir.length + 1), path: f }))
+      });
+    }
+    sections.push({ id: sec.id, label: sec.label, files: [], items });
+  }
+  // tools/liked has no folders: two static rows + its README as a file row
+  const liked = sections.find(s => s.id === 'tools/liked');
+  liked.items = LIKED_TOOLS.map(t => ({ name: t.name, path: '', desc: t.desc, primary: null, files: [], url: t.url }));
+  liked.files = (byDir['tools/liked'] || []).map(f => ({ name: f.split('/').pop(), path: f }));
+  // skills/liked: link-only entries render as rows with no files
+  const sl = sections.find(s => s.id === 'skills/liked');
+  for (const lo of LINK_ONLY) {
+    sl.items.push({ name: lo.name, path: '', desc: lo.desc, primary: null, files: [], linkOnly: lo });
+  }
+  sl.items.sort((a, b) => a.name.localeCompare(b.name));
+  return sections;
+}
+function buildRawModel(paths) {
+  // Full view: every file under the section roots + root docs + scripts/,
+  // still hiding dotfiles and the snapshot itself.
+  const scope = paths.filter(p => !isHidden(p) && (
+    p.startsWith('skills/') || p.startsWith('tools/') || p.startsWith('plugins/') ||
+    p.startsWith('scripts/') || ROOT_DOCS.includes(p)));
   const root = {};
-  for (const p of paths) {
-    if (!ROOTS.some(r => p === r || p.startsWith(r + '/'))) continue;
+  for (const p of scope) {
     const parts = p.split('/');
     let node = root;
     for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-      const isFile = i === parts.length - 1;
+      const part = parts[i], isFile = i === parts.length - 1;
       node.children = node.children || {};
       if (!node.children[part]) node.children[part] = { name: part, path: parts.slice(0, i + 1).join('/'), file: isFile, children: {} };
       node = node.children[part];
@@ -164,59 +421,215 @@ function buildTree(paths) {
   }
   return root;
 }
-function renderTree(node, parentEl) {
-  const ul = document.createElement('ul');
-  const items = Object.values(node.children || {}).sort((a, b) =>
-    (a.file - b.file) || a.name.localeCompare(b.name));
-  for (const item of items) {
-    const li = document.createElement('li');
-    if (item.file) {
-      li.textContent = '📄 ' + item.name;
-      li.className = 'file'; li.dataset.path = item.path; li.dataset.name = item.name.toLowerCase();
-      li.addEventListener('click', () => loadFile(item.path));
+
+// --- State ------------------------------------------------------------------
+const STORE_KEY = 'skills-explorer-expanded-v2';
+let expanded = new Set();
+try { expanded = new Set(JSON.parse(localStorage.getItem(STORE_KEY) || '[]')); } catch { expanded = new Set(); }
+function saveExpanded() { try { localStorage.setItem(STORE_KEY, JSON.stringify([...expanded])); } catch {} }
+let mode = 'relevant'; // 'relevant' | 'all'
+let query = '';
+let model = null, rawModel = null, allPaths = [];
+
+// --- Rendering --------------------------------------------------------------
+const treeEl = document.getElementById('tree');
+const countEl = document.getElementById('countline');
+function el(tag, cls, text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+function twistyBtn(open) { const b = el('button', 'twisty'); b.type = 'button'; b.textContent = open ? '▾' : '▸'; b.setAttribute('aria-expanded', open ? 'true' : 'false'); return b; }
+function dlLink(path, label) { const a = el('a', 'dl', label || 'Download'); a.href = RAW(path); a.setAttribute('download', ''); return a; }
+
+function renderFileRow(f) {
+  const li = el('li', 'file-row');
+  li.dataset.name = f.name.toLowerCase();
+  li.dataset.search = (f.name + ' ' + f.path).toLowerCase();
+  const name = el('span', 'file-name', '📄 ' + f.name);
+  name.addEventListener('click', () => loadFile(f.path));
+  li.appendChild(name);
+  li.appendChild(dlLink(f.path));
+  return li;
+}
+function renderItemRow(item, secId) {
+  const key = 'item:' + (item.path || item.name);
+  const open = expanded.has(key);
+  const li = el('li', 'item');
+  li.dataset.name = item.name.toLowerCase();
+  li.dataset.search = (item.name + ' ' + (item.desc || '') + ' ' + (item.path || '')).toLowerCase();
+  const head = el('div', 'item-head');
+  const tw = twistyBtn(open && item.files.length > 0);
+  const name = el('span', 'item-name', item.name);
+  const toggle = () => {
+    if (!item.files.length) return;
+    if (expanded.has(key)) expanded.delete(key); else expanded.add(key);
+    saveExpanded(); render();
+  };
+  tw.addEventListener('click', toggle);
+  name.addEventListener('click', toggle);
+  head.appendChild(tw);
+  head.appendChild(name);
+  const actions = el('span', 'item-actions');
+  if (item.linkOnly) {
+    if (item.linkOnly.kind === 'url') {
+      const a = el('a', 'open-link', 'Open ↗'); a.href = item.linkOnly.href; a.target = '_blank'; a.rel = 'noopener';
+      actions.appendChild(a);
     } else {
-      li.textContent = item.name;
-      li.className = 'folder open';
-      li.addEventListener('click', (e) => { if (e.target !== li) return; li.classList.toggle('open'); const sub = li.querySelector(':scope > ul'); if (sub) sub.classList.toggle('hidden'); });
-      renderTree(item, li);
-      ul.appendChild(li); continue;
+      const b = el('button', 'dl', 'Copy command'); b.type = 'button';
+      b.addEventListener('click', async (e) => {
+        try { await navigator.clipboard.writeText(item.linkOnly.cmd); e.target.textContent = 'Copied'; }
+        catch { e.target.textContent = 'Select + copy'; }
+        setTimeout(() => { e.target.textContent = item.linkOnly.kind === 'cmd' ? 'Copy command' : 'Copy'; }, 1500);
+      });
+      actions.appendChild(b);
     }
+  } else {
+    if (item.primary) actions.appendChild(dlLink(item.primary));
+    const openUrl = item.url || (item.path ? TREE_URL(item.path) : null);
+    if (openUrl) { const a = el('a', 'open-link', 'Open ↗'); a.href = openUrl; a.target = '_blank'; a.rel = 'noopener'; actions.appendChild(a); }
+  }
+  head.appendChild(actions);
+  li.appendChild(head);
+  if (item.desc) li.appendChild(el('p', 'item-desc', item.desc));
+  if (item.files.length) {
+    const ul = el('ul', 'item-files');
+    if (!open) ul.classList.add('hidden');
+    for (const f of item.files) ul.appendChild(renderFileRow(f));
+    li.appendChild(ul);
+  }
+  return li;
+}
+function renderRelevant() {
+  const ul = el('ul');
+  let totalItems = 0;
+  for (const sec of model) {
+    const secKey = 'sec:' + sec.id;
+    const secOpen = expanded.has(secKey);
+    const li = el('li');
+    const head = el('div', 'sec-head');
+    const tw = twistyBtn(secOpen);
+    head.appendChild(tw);
+    head.appendChild(el('span', 'sec-name', sec.label));
+    const n = sec.items.length + sec.files.length;
+    head.appendChild(el('span', 'count', n + (n === 1 ? ' item' : ' items')));
+    head.addEventListener('click', () => {
+      if (expanded.has(secKey)) expanded.delete(secKey); else expanded.add(secKey);
+      saveExpanded(); render();
+    });
+    li.appendChild(head);
+    const body = el('ul');
+    if (!secOpen) body.classList.add('hidden');
+    for (const f of sec.files) body.appendChild(renderFileRow(f));
+    for (const item of sec.items) { body.appendChild(renderItemRow(item, sec.id)); totalItems++; }
+    totalItems += sec.files.length;
+    li.appendChild(body);
     ul.appendChild(li);
   }
-  if (parentEl) { parentEl.appendChild(ul); return ul; }
+  return { ul, totalItems };
+}
+function renderRaw(node, parentEl) {
+  const ul = el('ul');
+  const items = Object.values(node.children || {}).sort((a, b) => (a.file - b.file) || a.name.localeCompare(b.name));
+  for (const item of items) {
+    if (item.file) { ul.appendChild(renderFileRow({ name: item.name, path: item.path })); continue; }
+    const key = 'raw:' + item.path;
+    const open = expanded.has(key);
+    const li = el('li');
+    const head = el('div', 'sec-head');
+    const tw = twistyBtn(open);
+    head.appendChild(tw);
+    head.appendChild(el('span', 'sec-name', item.name));
+    head.addEventListener('click', () => {
+      if (expanded.has(key)) expanded.delete(key); else expanded.add(key);
+      saveExpanded(); render();
+    });
+    li.appendChild(head);
+    const sub = renderRaw(item);
+    if (!open) sub.classList.add('hidden');
+    li.appendChild(sub);
+    ul.appendChild(li);
+  }
   return ul;
 }
+function applyQuery() {
+  const q = query.trim().toLowerCase();
+  let matches = 0;
+  const rows = treeEl.querySelectorAll('li.item, li.file-row');
+  rows.forEach(li => {
+    const hit = q === '' || (li.dataset.search || '').includes(q);
+    li.classList.toggle('hidden', !hit);
+    if (hit && q !== '') matches++;
+  });
+  // Sections stay visible only if they contain a visible row
+  treeEl.querySelectorAll(':scope > ul > li').forEach(secLi => {
+    const body = secLi.querySelector(':scope > ul');
+    if (!body) return;
+    const anyVisible = [...body.querySelectorAll('li.item, li.file-row')].some(r => !r.classList.contains('hidden'));
+    secLi.classList.toggle('hidden', q !== '' && !anyVisible);
+    if (q !== '') body.classList.remove('hidden');
+  });
+  if (q !== '') {
+    countEl.textContent = matches + (matches === 1 ? ' match' : ' matches') + ' for “' + query.trim() + '”';
+  }
+  return matches;
+}
+function render() {
+  treeEl.innerHTML = '';
+  let total = 0;
+  if (mode === 'relevant') {
+    const { ul, totalItems } = renderRelevant();
+    treeEl.appendChild(ul);
+    total = totalItems;
+    countEl.textContent = total + ' items — skills, tools, plugins, docs';
+  } else {
+    treeEl.appendChild(renderRaw(rawModel));
+    total = allPaths.filter(p => !isHidden(p)).length;
+    countEl.textContent = total + ' files — full tree';
+  }
+  document.getElementById('toggle-all').setAttribute('aria-pressed', mode === 'all' ? 'true' : 'false');
+  document.getElementById('toggle-all').textContent = mode === 'all' ? 'Show relevant only' : 'Show everything';
+  applyQuery();
+}
+document.getElementById('expand-all').addEventListener('click', () => {
+  const addKeys = (node, prefix) => {
+    for (const item of Object.values(node.children || {})) {
+      if (!item.file) { expanded.add(prefix + item.path); addKeys(item, prefix); }
+    }
+  };
+  for (const sec of model) {
+    expanded.add('sec:' + sec.id);
+    for (const item of sec.items) if (item.files.length) expanded.add('item:' + (item.path || item.name));
+  }
+  if (rawModel) addKeys(rawModel, 'raw:');
+  saveExpanded(); render();
+});
+document.getElementById('collapse-all').addEventListener('click', () => {
+  expanded.clear(); saveExpanded(); render();
+});
+document.getElementById('toggle-all').addEventListener('click', () => {
+  mode = mode === 'relevant' ? 'all' : 'relevant';
+  render();
+});
+document.getElementById('filter').addEventListener('input', (e) => {
+  query = e.target.value;
+  if (query.trim() === '') { render(); return; }
+  applyQuery();
+});
+
 async function fetchTree() {
-  const treeEl = document.getElementById('tree');
   try {
     const res = await fetch(API_TREE);
     if (!res.ok) throw new Error('API ' + res.status);
     const data = await res.json();
-    const paths = data.tree.filter(t => t.type === 'blob').map(t => t.path);
-    treeEl.innerHTML = '';
-    treeEl.appendChild(renderTree(buildTree(paths)));
+    return data.tree.filter(t => t.type === 'blob').map(t => t.path);
   } catch (err) {
-    try {
-      const res = await fetch('tree-snapshot.json');
-      const snap = await res.json();
-      treeEl.innerHTML = '';
-      treeEl.appendChild(renderTree(buildTree(snap.files)));
-      const note = document.getElementById('snapshot-note');
-      note.textContent = 'Live tree unavailable (' + err.message + ') — showing snapshot generated ' + snap.generated_at + '.';
-      note.classList.remove('hidden');
-    } catch (e2) {
-      treeEl.innerHTML = '<p style="color:#e0a0a0;padding:0 10px;">Could not load the file tree (GitHub API and snapshot both failed).</p>';
-    }
+    const res = await fetch('tree-snapshot.json');
+    const snap = await res.json();
+    const note = document.getElementById('snapshot-note');
+    note.textContent = 'Live tree unavailable (' + err.message + ') — showing snapshot generated ' + snap.generated_at + '.';
+    note.classList.remove('hidden');
+    return snap.files;
   }
 }
-document.getElementById('filter').addEventListener('input', (e) => {
-  const q = e.target.value.toLowerCase();
-  document.querySelectorAll('#tree .file').forEach(li => {
-    li.classList.toggle('hidden', q !== '' && !li.dataset.name.includes(q) && !li.dataset.path.toLowerCase().includes(q));
-  });
-});
 
-// File viewer
+// --- File viewer (unchanged) ------------------------------------------------
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function md(src) {
   const lines = esc(src).split('\n');
@@ -245,11 +658,10 @@ function isText(path) {
   return TEXT_EXTS.has(ext) || !path.includes('.');
 }
 async function loadFile(path) {
-  document.querySelectorAll('#tree .file').forEach(li => li.classList.toggle('sel', li.dataset.path === path));
   document.getElementById('crumb-path').textContent = path;
   document.getElementById('dl-file').href = RAW(path);
   const content = document.getElementById('content');
-  content.innerHTML = '<p style="color:var(--dim);">Loading…</p>';
+  content.innerHTML = '<p style="color:var(--muted);">Loading…</p>';
   try {
     const res = await fetch(RAW(path));
     if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -260,12 +672,23 @@ async function loadFile(path) {
     const text = await res.text();
     content.innerHTML = path.endsWith('.md') ? md(text) : '<pre>' + esc(text) + '</pre>';
   } catch (err) {
-    content.innerHTML = '<p style="color:#e0a0a0;">Could not load this file (' + esc(err.message) + '). Use the Download button.</p>';
+    content.innerHTML = '<p style="color:#b3261e;">Could not load this file (' + esc(err.message) + '). Use the Download button.</p>';
   }
 }
 
-fetchTree();
-loadFile('README.md');
+(async () => {
+  try {
+    allPaths = await fetchTree();
+  } catch (e) {
+    treeEl.innerHTML = '<p style="color:#b3261e;padding:0 10px;">Could not load the file tree (GitHub API and snapshot both failed).</p>';
+    countEl.textContent = 'Tree failed to load';
+    return;
+  }
+  model = buildModel(allPaths);
+  rawModel = buildRawModel(allPaths);
+  render();
+  loadFile('README.md');
+})();
 </script>
 </body>
 </html>
