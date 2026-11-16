@@ -5,4 +5,4 @@ notes/
 .venv/
 __pycache__/
 *.log
-calendar.ics
+/calendar.ics
