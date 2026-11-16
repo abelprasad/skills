@@ -1,0 +1,9 @@
+{
+  "author": {
+    "email": "abelprasad4@gmail.com",
+    "name": "Abel Prasad"
+  },
+  "description": "ADRs, CLI product, privacy rule, dev-copy rule, presence. Package a repo like a product.",
+  "name": "repo-packaging",
+  "version": "0.1.0"
+}

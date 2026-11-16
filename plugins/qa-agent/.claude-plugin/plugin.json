@@ -1,0 +1,9 @@
+{
+  "author": {
+    "email": "abelprasad4@gmail.com",
+    "name": "Abel Prasad"
+  },
+  "description": "Checklist QA with screenshots and a plain-English HTML report.",
+  "name": "qa-agent",
+  "version": "0.1.0"
+}

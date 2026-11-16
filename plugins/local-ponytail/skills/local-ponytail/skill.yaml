@@ -1,0 +1,27 @@
+name: local_ponytail
+title: Local ponytail
+description: 'Forces the laziest solution that actually works, simplest, shortest, most minimal. Channels a senior dev who has seen everything: question whether the task needs to exist at all (YAGNI), reach for the standard library before custom code, native platform features before dependencies, one line before fifty. Supports intensity levels: lite, full (default), ultra. Use on ANY coding task: writing, adding, refactoring, fixing, reviewing, or designing code, and choosing libraries or dependencies. Also use whenever the user says "ponytail", "be lazy", "lazy mode", "simplest solution", "minimal solution", "yagni", "do less", or "shortest path", or complains about over-engineering, bloat, boilerplate, or unnecessary dependencies. Do NOT use for non-coding requests (general knowledge, prose, translation, summaries, recipes).'
+category: Work and knowledge
+include_in_prompt: true
+availability:
+  confidential_vm: true
+  needs_speech: false
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - /home/hatch/workspace/custom-skills/local-ponytail/SKILL.md
+  - /home/hatch/workspace/custom-skills/local-ponytail/skill.yaml
+  - skill inventory revision 4a9ab52f72b17d363f402282c94a6cf037e646198097151848894d96e15d07f5
+  - /opt/muse/skills/custom-connector-setup/templates/skill/SKILL.md
+  - /opt/muse/skills/custom-connector-setup/templates/skill/skill.yaml
+  - 'muse.skill_search ''caveman terse prose'' 2026-10-17: only local_ponytail returned, no Caveman skill exists'
+  measurement:
+    proxy_metric_id: ponytail_review_conformance
+    success_criterion: Post-install, the local_ponytail entry carries category Work and knowledge, its Available connectors section matches the template's two closing bullets with no recovery boilerplate, and needs_review is cleared; over the 30-day window no coding session shows a wasted connector_search or discovery miss attributable to the ponytail entry.
+    window_days: 30
+  needs_review: false
+  rationale: 'local_ponytail is the last managed entry carried over from the previous skill layout that was never re-reviewed: its learning metadata is still {managed: true, needs_review: true} at inventory revision 4a9ab52f72b17d363f402282c94a6cf037e646198097151848894d96e15d07f5. Reviewing it against the current catalog, the method is sound and distinctive (YAGNI ladder with lite/full/ultra intensities, root-cause bug fixes, one-check rule, calibration knobs), fills a coding-efficiency niche that flagged_board_submit_handoff (job-board handoffs) and local_ui_ux_pro_max (design) do not touch, and its description already excludes non-coding requests, so it is kept, not retired. The corrections it needed were conformance ones: it had no category (both sibling managed entries carry one), its Available connectors section was recovery boilerplate instructing the agent to run connector_search ''before following recovered instructions'', which misdirects coding sessions, and its Boundaries section referenced a Caveman skill that a skill_search on 2026-10-17 confirmed does not exist. The body is rewritten to the template''s bullet style with the method preserved, matching the bar the loop''s own published skill (flagged_board_submit_handoff) sets. The deterministic candidates from this run (repeated handoff suppressions across 7 objectives, 5 goals_bookkeeping recurring failures) were rejected as out of scope: they demand system prompt and policy changes this loop cannot make, the same verdict the 2026-10-15 run recorded. The 22 terminal subagent/tool failures carry no transcripts and no attributable pattern, and 0 cron runs failed inside the evidence window, so no other proposal is warranted.'
+  reviewed_at: 2026-10-17T07:56:39.462442+00:00
+  review_after: 2026-11-16T07:56:39.462442+00:00
+  run_id: sirun_e8456f2f543d4c52a764be39b29962e3

@@ -1,0 +1,9 @@
+{
+  "author": {
+    "email": "abelprasad4@gmail.com",
+    "name": "Abel Prasad"
+  },
+  "description": "ffmpeg recipes for video and audio: cut, convert, probe, and batch.",
+  "name": "ffmpeg-skill",
+  "version": "0.1.0"
+}

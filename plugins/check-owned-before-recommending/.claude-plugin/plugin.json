@@ -1,0 +1,9 @@
+{
+  "author": {
+    "email": "abelprasad4@gmail.com",
+    "name": "Abel Prasad"
+  },
+  "description": "Check what Abel already owns before recommending a product.",
+  "name": "check-owned-before-recommending",
+  "version": "0.1.0"
+}

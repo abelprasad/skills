@@ -1,0 +1,22 @@
+name: flagged_board_submit_handoff
+title: Flagged Application Board Handoff
+description: Detect when a job board backend invalidates automation-browser submits despite solved captchas, then hand off to the user fast with a cheat sheet.
+category: Work and knowledge
+include_in_prompt: true
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - MEMORY.md 'Job applications 2026-10-14' section
+  - MEMORY.md 'Job applications 2026-10-01' section
+  - workspace/your_files/shield-ai-application-cheatsheet.md
+  - 'run chunk-1 findings: Shield AI session 2026-10-15T01:25Z-01:51Z'
+  measurement:
+    proxy_metric_id: flagged_board_retry_waste
+    success_criterion: Post-install, any job-board session that hits the flagged signature ends after at most 2 backend invalidations with a same-turn disclosure and a saved answer cheat sheet; no session burns further captcha solves on a flagged backend.
+    window_days: 30
+  needs_review: false
+  rationale: 'Evidence shows a recurring failure shape across 3 boards and 4 applications: the automation browser gets flagged, captchas solve fine, but the board backend invalidates every submit. Palantir Chicago/NYC 2026-10-01 burned 3 manual plus 5+ auto captcha solves on a flagged hCaptcha session (MEMORY.md ''Job applications 2026-10-01''); Shield AI 2026-10-15 burned roughly 12 captcha solves before Lever''s backend kept rejecting with ''error verifying your application'' (MEMORY.md ''Job applications 2026-10-14'', cheat sheet at workspace/your_files/shield-ai-application-cheatsheet.md); CesiumAstro joins the same unsubmitted set per the alignment synthesis. The working response already exists (same-turn disclosure, two paths, cheat sheet), but nothing bounds the wasted retries before it. This skill codifies the behavioral signature, a 2-invalidation retry budget, and the stop-save-handoff protocol, with the root cause kept behavioral (''likely flagged'') rather than asserted. Checked and rejected: the deterministic goals_bookkeeping recurring_failure and repeated_handoff_suppression hypotheses require changing system prompts/policies, which this loop cannot do; the 16 terminal tool-call failures carry no transcripts and show no attributable pattern; the single failed cron run is one instance with no pattern; only 2 managed custom skills exist so consolidation is not triggered; no inventory amendments await review and recovered notes are already retired.'
+  review_after: 2026-11-14T07:56:21.174629+00:00
+  reviewed_at: 2026-10-15T07:56:21.174629+00:00
+  run_id: sirun_1adf1e920b484cee804dec7eda7de24d

@@ -1,0 +1,9 @@
+{
+  "author": {
+    "email": "abelprasad4@gmail.com",
+    "name": "Abel Prasad"
+  },
+  "description": "Laziest working solution: YAGNI, stdlib first, one line before fifty.",
+  "name": "local-ponytail",
+  "version": "0.1.0"
+}

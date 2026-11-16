@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json.schemastore.org/claude-plugin-marketplace.json",
+  "name": "abelprasad",
+  "description": "Abel Prasad's skills, tools, and plugins: everything he likes and makes, installable as Claude Code plugins.",
+  "owner": {
+    "email": "abelprasad4@gmail.com",
+    "name": "Abel Prasad"
+  },
+  "plugins": [
+    {
+      "description": "Laziest working solution: YAGNI, stdlib first, one line before fifty.",
+      "name": "local-ponytail",
+      "source": "./plugins/local-ponytail",
+      "version": "0.1.0"
+    },
+    {
+      "description": "/summary: six-section handoff of everything talked and done in a session.",
+      "name": "summary",
+      "source": "./plugins/summary",
+      "version": "0.1.0"
+    },
+    {
+      "description": "ADRs, CLI product, privacy rule, dev-copy rule, presence. Package a repo like a product.",
+      "name": "repo-packaging",
+      "source": "./plugins/repo-packaging",
+      "version": "0.1.0"
+    },
+    {
+      "description": "Checklist QA with screenshots and a plain-English HTML report.",
+      "name": "qa-agent",
+      "source": "./plugins/qa-agent",
+      "version": "0.1.0"
+    },
+    {
+      "description": "Check what Abel already owns before recommending a product.",
+      "name": "check-owned-before-recommending",
+      "source": "./plugins/check-owned-before-recommending",
+      "version": "0.1.0"
+    },
+    {
+      "description": "Spot a flagged job board and hand off to Abel fast with a cheat sheet.",
+      "name": "flagged-board-submit-handoff",
+      "source": "./plugins/flagged-board-submit-handoff",
+      "version": "0.1.0"
+    },
+    {
+      "description": "File in a blocking portal with screenshots instead of driving it.",
+      "name": "screenshot-guided-portal-filing",
+      "source": "./plugins/screenshot-guided-portal-filing",
+      "version": "0.1.0"
+    },
+    {
+      "description": "ADHD output protocol: action first, numbered steps, no preamble.",
+      "name": "i-have-adhd",
+      "source": "./plugins/i-have-adhd",
+      "version": "0.1.0"
+    },
+    {
+      "description": "Design bundle: shadcn + Tailwind, brand, banners, slides.",
+      "name": "local-ui-ux-pro-max",
+      "source": "./plugins/local-ui-ux-pro-max",
+      "version": "0.1.0"
+    },
+    {
+      "description": "ffmpeg recipes for video and audio: cut, convert, probe, and batch.",
+      "name": "ffmpeg-skill",
+      "source": "./plugins/ffmpeg-skill",
+      "version": "0.1.0"
+    },
+    {
+      "description": "Motion design principles: timing, easing, choreography, Disney principles for UI.",
+      "name": "motion-design",
+      "source": "./plugins/motion-design",
+      "version": "0.1.0"
+    },
+    {
+      "description": "Turns AI-looking UI into a designed interface with its own character.",
+      "name": "unslop",
+      "source": "./plugins/unslop",
+      "version": "0.1.0"
+    }
+  ]
+}

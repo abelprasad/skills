@@ -1,0 +1,23 @@
+name: screenshot_guided_portal_filing
+title: Screenshot Guided Portal Filing
+description: Guide a user through a government or business portal filing screen by screen from their screenshots when the automation browser cannot drive the portal, with every field read back and checked before submit.
+category: Business
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - load_evidence window 2026-10-26T07:53Z to 2026-10-27T07:53Z
+  - chunk_handoff PA filing screenshot walkthrough Oct 26 and EIN screenshot walkthrough Oct 26
+  - muse.skill_search screenshot guided government filing IRS EIN LLC 2026-10-27
+  - /opt/muse/skills/custom-connector-setup/templates/skill/SKILL.md
+  - /home/hatch/workspace/custom-skills/flagged_board_submit_handoff/SKILL.md
+  measurement:
+    proxy_metric_id: portal_filing_transcription_accuracy
+    success_criterion: Post-install, the first screenshot-guided portal filing in the window completes with a field-by-field read back before submit and no transcription error requiring a post-submit correction for a field type this skill checks, such as a dropped address digit, a wrong date, or a wrong category mapping. If no such filing occurs in the window, the result is inconclusive rather than a success.
+    window_days: 60
+  needs_review: false
+  rationale: The Oct 26 window shows the same workaround succeeding twice. A portal that blocks the automation browser was handled by the user clicking on their own device while the agent transcribed screenshots screen by screen, catching a dropped address digit, an optional address field that should stay blank for privacy, and a personal date entered where the filing date belonged on the formation filing, and then guiding the EIN filing through entity type, responsible party, location, category mapping, and the all-No answers to a saved confirmation letter. A skill search for screenshot-guided government filing returned no portal-filing skill, and the closest managed skill, flagged_board_submit_handoff, covers job-board backend submit invalidation, not portal transcription. The document is written generically with no task details, no personal facts, and no identifiers, and it keeps the workaround label honest by framing it as a fallback when the browser cannot drive the portal. Other candidates were rejected. The Oct 26 sign-in and 2FA stalls already ended in the flagged-style stop and user-device handoff, and flagged_board_submit_handoff remains inside its measurement window to 2026-11-14. The business-identity separation episode was a single episode with a later user waiver, not a reusable method. The 36 terminal tool failures in the window carry no transcripts and no attributable pattern, the deterministic handoff-suppression and goals-bookkeeping hypotheses require system prompt or policy changes this loop cannot make, scheduled work succeeded, and active managed skills number 4, so no consolidation is triggered.
+  review_after: 2026-12-26T07:53:01.727143+00:00
+  reviewed_at: 2026-10-27T07:53:01.727143+00:00
+  run_id: sirun_cc6a8648281e4596aa7ae429c074fb34
