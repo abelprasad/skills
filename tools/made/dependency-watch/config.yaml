@@ -1,0 +1,29 @@
+# Dependency Watch — fill in locally on your machine.
+# Nothing in this file leaves your machine. No org names, no repo names
+# from work, no tokens. Put your real paths here on your own laptop.
+
+# Full path to the repo to watch, e.g. C:\work\my-repo
+# Leave empty and the script will stop and tell you to fill it in.
+repo_path: ""
+
+# Which ecosystems to check. Turn one off with false.
+ecosystems:
+  npm: true
+  pip: true
+  nuget: true
+
+# Which pip to check. Empty = the system python's pip (python -m pip).
+# To check a venv instead, put its pip path here, e.g.
+# C:\work\my-repo\.venv\Scripts\pip.exe
+pip_executable: ""
+
+# How many outdated packages to show per ecosystem in the Top section.
+# The full list is always in the appendix of the report.
+top_n: 3
+
+# Where the report goes. YYYY-MM-DD is replaced with today's date.
+report_path: "out/dependency-watch-YYYY-MM-DD.md"
+
+# Run `npm audit` too, so packages with known advisories are tiered as
+# Security. Best-effort only: if audit cannot run, it is skipped quietly.
+security_scan: true

@@ -1,0 +1,143 @@
+# ============================================================================
+# EXAMPLE CHECKLIST — plain English, no code needed
+#
+# This file is the checklist the QA agent follows. It only describes WHAT to
+# check, in plain words. You can copy this file and change the words to fit
+# your own website. No coding needed.
+#
+# HOW TO READ THIS FILE
+#   Lines starting with # are comments — the agent ignores them.
+#   Everything else is a simple list of labels and values:
+#
+#   name:   A short name for this checklist (shows up in the report).
+#   site:   The website address to test. It must start with https://
+#           (or http:// for a site on your own computer).
+#   steps:  The checks to run, in order, top to bottom. Each check has:
+#
+#     - id:       A short nickname for the check, no spaces (e.g. homepage-loads).
+#                 Used to name its screenshot. Pick anything clear.
+#     - name:     What the check does, in plain words (e.g. "Homepage loads").
+#                 This is what shows up in the report.
+#     - action:   What the agent does. Pick one of these:
+#                   goto          — open a page (needs url:)
+#                   click         — click something (needs selector:)
+#                   fill          — type into a box (needs selector: and value:)
+#                   assert_text   — check that some words appear on the page
+#                                   (needs selector: and text:)
+#                   assert_visible — check that something shows up on the page
+#                                   (needs selector:)
+#                   assert_value  — check that a box holds a certain value
+#                                   (needs selector: and value:)
+#                   wait          — wait a moment (needs ms: — 1000 is 1 second)
+#     - url:      The page to open. A short address like "/" means the home
+#                 page; "/login" means the login page. A full address also
+#                 works.
+#     - selector: HOW the agent finds the thing to click, type into, or check.
+#                 The easiest form is text= followed by the words on the
+#                 button or link, e.g. selector: "text=Log in".
+#                 For boxes, use the box's type, e.g. "input[type='number']".
+#                 If you are unsure, ask a developer for the right selector.
+#     - text:     The words that must appear on the page for the check to pass.
+#     - value:    What to type into a box, or what a box must hold.
+#                 Never put a real password here. For secrets, use value_env:
+#                 instead — it reads the value from your computer's settings,
+#                 so the secret never lands in this file.
+#     - value_env: The name of a setting on your computer that holds a secret
+#                 value (a password or login code). Example:
+#                   value_env: QA_TEST_PASSWORD
+#     - ms:       How long to wait, in milliseconds (1000 = 1 second).
+#
+# A check that fails does NOT stop the run — the agent keeps going so the
+# report shows everything, and the failed rows are highlighted in red.
+# ============================================================================
+
+# A short name for this checklist. It shows up at the top of the report.
+name: "Demo site smoke test"
+
+# The website to test. This example uses a public demo site anyone can open.
+# Replace it with your own QA website address.
+site: "https://the-internet.herokuapp.com"
+
+# The checks, in order. The agent runs them top to bottom.
+steps:
+  # Open the home page.
+  - id: homepage-loads
+    name: "Homepage loads"
+    action: goto
+    url: "/"
+
+  # Check the home page shows its heading.
+  - id: homepage-heading
+    name: "Homepage heading is present"
+    action: assert_text
+    selector: "h1"
+    text: "Welcome to the Internet"
+
+  # Click the "A/B Testing" link.
+  - id: open-ab-testing
+    name: "Open A/B Testing page"
+    action: click
+    selector: "text=A/B Testing"
+
+  # Check the new page shows its heading.
+  - id: ab-heading-visible
+    name: "A/B Testing heading is visible"
+    action: assert_text
+    selector: "h3"
+    text: "A/B Test"
+
+  # Open the Add/Remove Elements page.
+  - id: open-add-remove
+    name: "Open Add/Remove Elements page"
+    action: goto
+    url: "/add_remove_elements/"
+
+  # Click the "Add Element" button.
+  - id: add-element
+    name: "Click Add Element"
+    action: click
+    selector: "text=Add Element"
+
+  # Check a "Delete" button appeared.
+  - id: delete-button-appears
+    name: "Delete button appears"
+    action: assert_visible
+    selector: "text=Delete"
+
+  # Open the Inputs page.
+  - id: open-inputs
+    name: "Open Inputs page"
+    action: goto
+    url: "/inputs"
+
+  # Type 42 into the number box.
+  - id: fill-number
+    name: "Fill the number input"
+    action: fill
+    selector: "input[type='number']"
+    value: "42"
+
+  # Check the box now holds 42.
+  - id: input-holds-value
+    name: "Input holds the value 42"
+    action: assert_value
+    selector: "input[type='number']"
+    value: "42"
+
+  # Open the Checkboxes page.
+  - id: open-checkboxes
+    name: "Open Checkboxes page"
+    action: goto
+    url: "/checkboxes"
+
+  # Check the first checkbox shows up.
+  - id: first-checkbox-visible
+    name: "First checkbox is visible"
+    action: assert_visible
+    selector: "input[type='checkbox'] >> nth=0"
+
+  # Wait a second so the page settles before finishing.
+  - id: settle
+    name: "Let the page settle"
+    action: wait
+    ms: 1000

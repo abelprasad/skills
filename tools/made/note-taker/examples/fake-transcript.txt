@@ -1,0 +1,7 @@
+# Fake transcript — example input (all names and details are made up)
+
+[0s] Hey everyone, good morning, how was your weekend.
+[30s] Okay so we decided to go with the blue design for the launch page, everyone agreed, that is the decision.
+[60s] Just a quick status update, nothing changed since last week, the dashboard is still loading fine.
+[90s] Action item, Priya will send the updated numbers by Friday, she is the owner for that, deadline is Friday.
+[120s] Alright, thanks everyone, same time next week, have a good day.

@@ -1,0 +1,11 @@
+faster-whisper>=1.0.0
+pyyaml>=6.0
+requests>=2.31
+# sounddevice is only needed for capture.py (recording). Transcription and
+# summarizing work without it. Installed by the run scripts on first run.
+sounddevice>=0.4.6
+numpy>=1.24
+# pywin32 is Windows-only: it lets the watcher read your Outlook calendar
+# directly (calendar_source: outlook). The marker below means pip skips it
+# on macOS/Linux, where the watcher uses the .ics file instead.
+pywin32>=306; sys_platform == "win32"

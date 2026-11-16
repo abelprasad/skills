@@ -1,0 +1,34 @@
+# Standup notes config — fill this in on YOUR machine, once.
+# Nothing in this file ever leaves your laptop.
+# The script only reads your local git history. No network calls.
+
+# Full path to the repo you work in, e.g. C:\code\my-repo
+# Leave empty to use the folder you run the script from.
+repo_path: ""
+
+# How far back to look. Default when empty: yesterday at 09:00.
+# Examples: "yesterday 09:00" | "2026-11-15 09:00" | "24 hours ago"
+since: ""
+
+# Pattern that finds a ticket ID at the start of a commit message.
+# Default when empty: ABC-123 style (letters, dash, numbers).
+# Change it to match your team's tickets, e.g. "PBI-\\d+" or "ABC-\\d+".
+# One capture group = the ticket ID shown in brackets.
+ticket_pattern: ""
+
+# Only include commits by this author (your name or email).
+# Leave empty to include everyone's commits.
+author: ""
+
+# Azure DevOps (optional) — merge your assigned work items into the draft.
+# The server is already set up where you work. This script does NOT
+# install it, configure it, or sign in to it. It only reads a JSON
+# file that the server's tools already made (see README.md for the
+# one-line step). No org names, project names, or tokens go in here.
+azure_devops:
+  # Turn the Azure DevOps step on or off. Default off: git only.
+  enabled: false
+
+  # JSON file of work items, made by the one-line step in README.md.
+  # A plain file name is read from this folder; a full path works too.
+  items_file: "standup-items.json"

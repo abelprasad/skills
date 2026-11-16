@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>QA Report — $run_name</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; margin: 2rem auto; max-width: 1100px; padding: 0 1rem; color: #1a1a1a; }
+  h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .meta { color: #555; margin-bottom: 1.5rem; }
+  .summary { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+  .card { border: 1px solid #ddd; border-radius: 8px; padding: 0.75rem 1.25rem; min-width: 110px; }
+  .card b { display: block; font-size: 1.6rem; }
+  .card span { color: #555; font-size: 0.85rem; }
+  .overall { font-weight: 700; padding: 0.5rem 1rem; border-radius: 8px; display: inline-block; margin-bottom: 1.5rem; }
+  .overall.pass { background: #d9f2e2; color: #14663a; }
+  .overall.fail { background: #fbdfe0; color: #8f1d22; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #ddd; padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; }
+  th { background: #f2f2f2; }
+  tr.pass td.status { color: #14663a; font-weight: 700; }
+  tr.fail td.status { color: #8f1d22; font-weight: 700; }
+  tr.fail { background: #fff5f5; }
+  td img { max-width: 220px; border: 1px solid #ccc; display: block; }
+  .err { color: #8f1d22; font-size: 0.9rem; word-break: break-word; }
+  .detail { color: #777; font-size: 0.75rem; word-break: break-word; margin-top: 0.35rem; }
+  .summary-line { font-size: 1.1rem; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<h1>QA Report — $run_name</h1>
+<div class="meta">
+  Website: <a href="$site">$site</a><br>
+  Started: $started &nbsp;·&nbsp; Finished: $finished &nbsp;·&nbsp; Took: $duration
+</div>
+<div class="summary-line">$summary_sentence</div>
+<div class="summary">
+  <div class="card"><b>$total</b><span>checks</span></div>
+  <div class="card"><b>$passed</b><span>passed</span></div>
+  <div class="card"><b>$failed</b><span>failed</span></div>
+</div>
+<div class="overall $overall_class">$overall</div>
+<table>
+  <thead>
+    <tr><th>#</th><th>Check</th><th>What it does</th><th>Result</th><th>Time</th><th>Screenshot</th><th>What went wrong</th></tr>
+  </thead>
+  <tbody>
+$step_rows
+  </tbody>
+</table>
+</body>
+</html>

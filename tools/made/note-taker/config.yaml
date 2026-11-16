@@ -1,0 +1,53 @@
+# Note taker settings. Edit this file, not the code.
+# Everything here runs on your own laptop. Nothing is sent anywhere.
+
+# Meeting platform: teams, zoom, meet, or manual.
+# This only picks the capture notes in the README. The recording is the
+# same on every platform: system audio loopback + microphone.
+platform: teams
+
+# How the watcher finds your meetings: "outlook" (live, default) or "ics".
+# outlook: reads your Outlook calendar directly while Outlook is open.
+# No export, no new login, no cloud app. Falls back to the .ics file
+# below when Outlook is not open. ics: reads the file only, re-export
+# it when meetings change. On manual, both are ignored.
+calendar_source: outlook
+
+# Your calendar, exported as an .ics file. Only used in ics mode, and as
+# the fallback when Outlook is not open.
+calendar_file: calendar.ics
+
+# Outlook profile to use, or blank for your default profile. Only used
+# in outlook mode. Leave blank unless you use a non-default profile.
+outlook_profile: ""
+
+# Where notes and in-progress recordings live.
+notes_dir: notes
+recordings_dir: recordings
+
+# false: delete the recording right after it is turned into text.
+# true: keep the recording file.
+keep_audio: false
+
+# Local models (Ollama + faster-whisper, already in the local AI setup pack).
+whisper_model: small
+llm_model: qwen3.5:4b
+
+# Local Ollama only. Never change this to a web address.
+ollama_url: http://127.0.0.1:11434
+
+# Skip meetings shorter than this many minutes. All-day events are skipped.
+min_meeting_minutes: 5
+
+# Start recording this many minutes before a meeting starts.
+start_early_minutes: 1
+
+# Audio device name, or blank for the default. Set it only if recording
+# picks the wrong device (e.g. Teams is on a headset and the default is speakers).
+audio_device: ""
+
+# How long a transcript chunk is, in seconds, for the importance ranking.
+chunk_seconds: 30
+
+# Only chunks scoring this or more are summarized. See README for the scores.
+keep_score: 3

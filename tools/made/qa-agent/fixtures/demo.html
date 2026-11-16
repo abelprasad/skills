@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>The Internet (fixture)</title></head>
+<body>
+<h1>Welcome to the Internet</h1>
+<p><a href="ab.html">A/B Testing</a></p>
+<div id="elements">
+  <button onclick="addElement()">Add Element</button>
+  <div id="added"></div>
+</div>
+<p><input type="number" id="num" placeholder="Enter a number"></p>
+<p><input type="checkbox" id="cb1"> First checkbox</p>
+<script>
+function addElement() {
+  var b = document.createElement('button');
+  b.textContent = 'Delete';
+  b.onclick = function () { this.remove(); };
+  document.getElementById('added').appendChild(b);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+# OFFLINE fixture checklist — mirrors the example checklist step-for-step,
+# but runs against local static pages instead of the public demo site.
+# Serve the fixtures first:  python -m http.server 8471 --directory fixtures
+# then run:  python qa_runner.py --checklist checklists/fixture-checklist.yaml
+name: "Fixture smoke test (offline)"
+site: "http://127.0.0.1:8471"
+
+steps:
+  - id: homepage-loads
+    name: "Homepage loads"
+    action: goto
+    url: "demo.html"
+
+  - id: homepage-heading
+    name: "Homepage heading is present"
+    action: assert_text
+    selector: "h1"
+    text: "Welcome to the Internet"
+
+  - id: open-ab-testing
+    name: "Open A/B Testing page"
+    action: click
+    selector: "text=A/B Testing"
+
+  - id: ab-heading-visible
+    name: "A/B Testing heading is visible"
+    action: assert_text
+    selector: "h3"
+    text: "A/B Test"
+
+  - id: back-home
+    name: "Back to homepage"
+    action: goto
+    url: "demo.html"
+
+  - id: add-element
+    name: "Click Add Element"
+    action: click
+    selector: "text=Add Element"
+
+  - id: delete-button-appears
+    name: "Delete button appears"
+    action: assert_visible
+    selector: "text=Delete"
+
+  - id: fill-number
+    name: "Fill the number input"
+    action: fill
+    selector: "input[type='number']"
+    value: "42"
+
+  - id: input-holds-value
+    name: "Input holds the value 42"
+    action: assert_value
+    selector: "input[type='number']"
+    value: "42"
+
+  - id: first-checkbox-visible
+    name: "First checkbox is visible"
+    action: assert_visible
+    selector: "input[type='checkbox'] >> nth=0"
+
+  - id: settle
+    name: "Let the page settle"
+    action: wait
+    ms: 1000
