@@ -1,0 +1,26 @@
+# Secrets, credentials, live operational state, money data — never committed.
+.auth/
+queue/
+clips/
+vod/
+recordings/
+logs/
+out/
+submit-outbox/
+*.env
+*.pem
+*.key
+credentials*
+*secret*
+earnings.json
+campaigns.json
+STOP
+
+# Build / runtime junk
+__pycache__/
+*.pyc
+*.log
+.venv/
+venv/
+node_modules/
+.DS_Store
