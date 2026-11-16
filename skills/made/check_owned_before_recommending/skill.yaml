@@ -1,0 +1,28 @@
+name: check_owned_before_recommending
+title: Check Owned Items Before Recommending
+description: Check what the user already owns and excludes before recommending a product from a creator list or category, so the pick is not a blind duplicate or an excluded item.
+category: Shopping
+include_in_prompt: true
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - assistant msg 8c71ae56
+  - user collection msg add9536b
+  - assistant concession msg 651d65f2
+  - user waiver msg 350cddeb
+  - assistant revert msg 72eda642
+  - cart check msg f949041f
+  - ~/workspace/user/cologne-collection.md
+  - ~/dreams/alignment/derived/ALIGNMENT_SYNTHESIS.md
+  - runtime-child:948010b4
+  - runtime-child:dbab9336
+  measurement:
+    proxy_metric_id: recommendation_owned_check_rate
+    success_criterion: In post-install recommendation turns where a category collection or exclusion list is known, every pick shows an owned and exclusion check before the recommendation, no pick repeats a listed excluded item without an explicit in-conversation waiver, and no creator-list pick is made blind when no owned record exists without first asking what the user owns.
+    window_days: 30
+  needs_review: false
+  rationale: 'The 2026-10-23 record shows a blind creator-list pick: assistant msg 8c71ae56 recommended a fragrance from a reel without knowing the shelf, user msg add9536b then supplied an 11-bottle collection with a do-not-buy list covering that line, and assistant msg 651d65f2 conceded the pick was made blind. The same session later showed the corrected behavior when the shelf was known: cart check msg f949041f dropped a duplicate of an owned item. The alignment synthesis frames this as the third blind-pick correction after the Oct 20 costume and Oct 22 fit corrections, so the gap is cross-category, not one fragrance. The system shopping skill reads ~/memory/shopping/PROFILE.md, but the cologne collection lives separately at ~/workspace/user/cologne-collection.md, and a reel or creator-list recommendation can bypass a formal shopping request, so the existing skill does not cover this path. This new skill supplements rather than replaces it: check profile plus any category collection file, block exclusions except on an explicit in-conversation waiver (msg 350cddeb and revert msg 72eda642 show a waiver must be honored, not treated as permanent), and ask what the user owns when no record exists. The chunk 2 terminal failures (browser_open, browser.act, exec, bot_challenge.recover, including cursor heads runtime-child:948010b4 and runtime-child:dbab9336) carry no transcripts or error detail and show no attributable pattern, so no proposal is made for them. Managed count remains 3 active, below the 10-skill consolidation threshold, and all active managed skills remain inside their measurement windows.'
+  review_after: 2026-11-23T07:58:52.958239+00:00
+  reviewed_at: 2026-10-24T07:58:52.958239+00:00
+  run_id: sirun_d24453cb1b634139a1d9923c3883c0c0
